@@ -104,7 +104,6 @@ idea-voting-platform/
 
     Create a `.env` file in the root directory (based on `.env.example`):
 
-    ```env
     POSTGRES_DB=ideas_db
     POSTGRES_USER=postgres
     POSTGRES_PASSWORD=postgres
@@ -114,10 +113,10 @@ idea-voting-platform/
 ## 🚀 Setup & Running the Application
 
 ### 1️⃣ Clone the Repository
-```bash
+
 git clone https://github.com/hadikoubaissi22/idea-voting-platform.git
 cd idea-voting-platform
-```
+
 ### 2️⃣ Install Dependencies
         Backend
             cd backend
