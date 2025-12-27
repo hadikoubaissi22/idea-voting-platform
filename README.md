@@ -104,6 +104,7 @@ idea-voting-platform/
 
     Create a `.env` file in the root directory (based on `.env.example`):
 
+    ```env
     POSTGRES_DB=ideas_db
     POSTGRES_USER=postgres
     POSTGRES_PASSWORD=postgres
