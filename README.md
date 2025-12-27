@@ -109,13 +109,13 @@ idea-voting-platform/
     POSTGRES_PASSWORD=postgres
     POSTGRES_PORT=5432
     BACKEND_PORT=3000
-
+---
 ## 🚀 Setup & Running the Application
 
 ### 1️⃣ Clone the Repository
 
-git clone https://github.com/hadikoubaissi22/idea-voting-platform.git
-cd idea-voting-platform
+    git clone https://github.com/hadikoubaissi22/idea-voting-platform.git
+    cd idea-voting-platform
 
 ### 2️⃣ Install Dependencies
         Backend
