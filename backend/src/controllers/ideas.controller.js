@@ -2,11 +2,11 @@ import { pool } from '../db.js';
 import { randomUUID } from 'crypto';
 import { emitEvent } from '../socket.js';
 
-
+/* Get All Ideas */
 export const getIdeas = async (_, res) => {
   try {
     const { rows } = await pool.query(
-      'SELECT * FROM ideas ORDER BY vote_count DESC'
+      "SELECT * FROM ideas ORDER BY vote_count DESC"
     );
 
     res
@@ -23,7 +23,7 @@ export const getIdeas = async (_, res) => {
   }
 };
 
-/* CREATE IDEA */
+/* Create Idea */
 export const createIdea = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -46,7 +46,7 @@ export const createIdea = async (req, res) => {
   }
 };
 
-/* UPVOTE */
+/* UP vote */
 export const upvoteIdea = async (req, res) => {
   try {
     const { id } = req.params;
@@ -72,7 +72,7 @@ export const upvoteIdea = async (req, res) => {
   }
 };
 
-/* DOWNVOTE */
+/* DOWN vote */
 export const downvoteIdea = async (req, res) => {
   try {
     const { id } = req.params;

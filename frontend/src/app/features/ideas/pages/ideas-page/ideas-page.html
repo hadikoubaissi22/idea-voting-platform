@@ -78,7 +78,7 @@
 
     <div *ngIf="!loading && !errorMessage">
       
-      <div *ngIf="ideas.length > 0">
+      <div *ngIf="filteredIdeas.length > 0">
         <div class="mb-6 flex items-center gap-2">
           <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
             <lucide-icon [name]="trendingUpIcon" class="h-5 w-5"></lucide-icon>

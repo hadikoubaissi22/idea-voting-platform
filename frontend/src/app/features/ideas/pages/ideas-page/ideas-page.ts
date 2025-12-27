@@ -223,7 +223,7 @@ export class IdeasPage implements OnInit, OnDestroy {
     ).subscribe({
       next: (updatedIdea) => this.replaceIdea(updatedIdea),
       error: () => {
-        this.votingErrors.set(id, 'Failed to upvote'); // Set local error
+        this.votingErrors.set(id, 'Failed to upvote');
         this.cdr.detectChanges();
         
         setTimeout(() => {
@@ -313,13 +313,13 @@ export class IdeasPage implements OnInit, OnDestroy {
     this.ideasService.addIdea({ title: title!, description: description! })
       .pipe(
         finalize(() => {
-          this.submitting = false; // 3. Turn off loader when request finishes
+          this.submitting = false; 
           this.cdr.detectChanges();
         })
       )
       .subscribe({
         next: () => {
-          this.closeModal(); // This will reset the form and closeModal
+          this.closeModal();
         },
         error: (err) => console.error('Error adding idea:', err)
       });
