@@ -53,43 +53,46 @@ Make sure you have the following installed:
 
 ## 📂 Project Structure
 
+```text
 idea-voting-platform/
 │
 ├── backend/
-│ ├── src/
-│ │ ├── controllers/ideas.controller.js
-│ │ ├── routes/ideas.routes.js
-│ │ ├── middleware/auth.js
-│ │ ├── socket.js
-│ │ ├── db.js
-│ │ ├── app.js
-│ │ └── server.js
-│ ├── openapi.yaml
-│ ├── package.json
-│ └── Dockerfile
+│   ├── src/
+│   │   ├── controllers/
+│   │   │   └── ideas.controller.js
+│   │   ├── routes/
+│   │   │   └── ideas.routes.js
+│   │   ├── middleware/
+│   │   │   └── auth.js
+│   │   ├── socket.js
+│   │   ├── db.js
+│   │   ├── app.js
+│   │   └── server.js
+│   ├── openapi.yaml
+│   ├── package.json
+│   └── Dockerfile
 │
 ├── frontend/
-│ ├── src/app
-│        ├── core
-│        │   ├── services
-│        │   │   └── ideas.service.ts
-│        │   │   └── socket.service.ts
-│        │   ├── interceptors
-│        │   │   └── auth.interceptor.ts
-│        │   └── models
-│        │       └── idea.model.ts
-│        ├── features
-│        │   └── ideas
-│        │       ├── pages
-│        │       │   └── ideas-page
-│        │       │       ├── ideas-page.ts
-│        │       │       ├── ideas-page.html
-│        │       │       └── ideas-page.spec.ts
-│        │       │
-│        │
-│        ├── angular.json
-│        ├── package.json
-│        └── Dockerfile
+│   ├── src/
+│   │   └── app/
+│   │       ├── core/
+│   │       │   ├── services/
+│   │       │   │   ├── ideas.service.ts
+│   │       │   │   └── socket.service.ts
+│   │       │   ├── interceptors/
+│   │       │   │   └── auth.interceptor.ts
+│   │       │   └── models/
+│   │       │       └── idea.model.ts
+│   │       ├── features/
+│   │       │   └── ideas/
+│   │       │       └── pages/
+│   │       │           └── ideas-page/
+│   │       │               ├── ideas-page.ts
+│   │       │               ├── ideas-page.html
+│   │       │               └── ideas-page.spec.ts
+│   ├── angular.json
+│   ├── package.json
+│   └── Dockerfile
 │
 ├── docker-compose.yml
 ├── .env.example
@@ -108,24 +111,30 @@ idea-voting-platform/
     POSTGRES_PORT=5432
     BACKEND_PORT=3000
 
-🚀 Setup & Running the Application
-    1️⃣ Clone the Repository
-        git clone https://github.com/hadikoubaissi22/idea-voting-platform.git
-        cd idea-voting-platform
-    2️⃣ Install Dependencies
+## 🚀 Setup & Running the Application
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/hadikoubaissi22/idea-voting-platform.git
+cd idea-voting-platform
+
+### 2️⃣ Install Dependencies
         Backend
             cd backend
             npm install
         Fronted
             cd frontend
             npm install
-    3️⃣ Database Setup
+
+### 3️⃣ Database Setup
         PostgreSQL runs automatically via Docker Compose
         Database tables are initialized by the backend on startup
         No manual SQL setup is required
-    4️⃣ Run the Application
+
+### 4️⃣ Run the Application
         docker compose up --build
-    5️⃣ Run Without Docker
+
+### 5️⃣ Run Without Docker
         Backend
             cd backend
             npm run dev
@@ -133,7 +142,7 @@ idea-voting-platform/
             cd frontend
             ng serve
 
-🌐 Application Ports
+## 🌐 Application Ports
     Service	        URL
 
     Frontend	    http://localhost:4200
@@ -144,7 +153,7 @@ idea-voting-platform/
 
     PostgreSQL	    localhost:5432
 
-🧠 Design Decisions & Trade-offs
+## 🧠 Design Decisions & Trade-offs
 
     Angular Standalone Components were used to reduce boilerplate and improve maintainability.
 
@@ -156,7 +165,7 @@ idea-voting-platform/
 
     Authentication was kept minimal to focus on the core assignment requirements.
 
-⭐ Bonus Features Implemented
+## ⭐ Bonus Features Implemented
 
     ✅ Real-time updates using WebSockets
     ✅ Search functionality (title & description)
