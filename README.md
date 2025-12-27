@@ -114,10 +114,10 @@ idea-voting-platform/
 ## 🚀 Setup & Running the Application
 
 ### 1️⃣ Clone the Repository
-
+```bash
 git clone https://github.com/hadikoubaissi22/idea-voting-platform.git
 cd idea-voting-platform
-
+```
 ### 2️⃣ Install Dependencies
         Backend
             cd backend
