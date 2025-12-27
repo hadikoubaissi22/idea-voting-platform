@@ -1,0 +1,135 @@
+openapi: 3.0.3
+
+info:
+  title: Idea Voting Platform API
+  description: |
+    REST API for the Idea Voting Platform.
+    Allows users to submit ideas, vote on them, and retrieve ideas in real time.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+tags:
+  - name: Ideas
+    description: Idea submission and voting endpoints
+
+paths:
+  /api/ideas:
+    get:
+      tags:
+        - Ideas
+      summary: Get all ideas
+      description: Retrieve a list of all submitted ideas.
+      responses:
+        '200':
+          description: List of ideas retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Idea'
+
+    post:
+      tags:
+        - Ideas
+      summary: Create a new idea
+      description: Submit a new idea.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIdeaRequest'
+      responses:
+        '201':
+          description: Idea created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        '400':
+          description: Invalid request data
+
+  /api/ideas/{id}/upvote:
+    post:
+      tags:
+        - Ideas
+      summary: Upvote an idea
+      description: Increase the vote count of an idea by 1.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the idea to upvote
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Idea upvoted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        '404':
+          description: Idea not found
+
+  /api/ideas/{id}/downvote:
+    post:
+      tags:
+        - Ideas
+      summary: Downvote an idea
+      description: Decrease the vote count of an idea by 1.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the idea to downvote
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Idea downvoted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Idea'
+        '404':
+          description: Idea not found
+
+components:
+  schemas:
+    Idea:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Add dark mode
+        description:
+          type: string
+          example: Implement dark mode for better accessibility
+        votes:
+          type: integer
+          example: 12
+        createdAt:
+          type: string
+          format: date-time
+          example: 2025-01-01T12:00:00Z
+
+    CreateIdeaRequest:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        title:
+          type: string
+          example: Offline support
+        description:
+          type: string
+          example: Allow users to access ideas while offline

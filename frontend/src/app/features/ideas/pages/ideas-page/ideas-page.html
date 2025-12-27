@@ -1,0 +1,272 @@
+<div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-700">
+  
+  <header class="sticky top-0 z-30 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/30">
+          <lucide-icon [name]="lightbulbIcon" class="h-6 w-6"></lucide-icon>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-slate-900">Idea Garden</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button
+          (click)="openModal()"
+          class="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-slate-900 px-5 py-2.5 font-medium text-white shadow-md transition-all duration-300 hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/30 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2"
+        >
+          <lucide-icon [name]="plusIcon" class="h-4 w-4 transition-transform group-hover:rotate-90"></lucide-icon>
+          <span>New Idea</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    
+    <div class="mb-9 flex flex-col items-center justify-center space-y-6 text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        Cultivate the next <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">big thing</span>.
+      </h2>
+      <!-- <p class="max-w-3xl text-lg text-slate-600">
+        Share your innovative concepts, vote on your favorites, and watch the best ideas grow.
+      </p> -->
+
+      <div class="relative w-full max-w-xl">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+          <lucide-icon [name]="searchIcon" class="h-5 w-5 text-slate-400"></lucide-icon>
+        </div>
+        <input
+          type="text"
+          placeholder="Search for inspiration..."
+          (input)="onSearch($any($event.target).value)"
+          class="block w-full rounded-full border-0 bg-white py-4 pl-11 pr-4 text-slate-900 shadow-xl shadow-slate-200/60 ring-1 ring-slate-900/5 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6 transition-shadow hover:shadow-2xl hover:shadow-slate-200/80"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div *ngFor="let i of [1,2,3,4,5,6]" class="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-900/5">
+        <div class="animate-pulse space-y-4">
+          <div class="flex items-center space-x-2">
+            <div class="h-6 w-16 rounded-md bg-slate-200"></div>
+            <div class="h-6 w-24 rounded-md bg-slate-200"></div>
+          </div>
+          <div class="h-6 w-3/4 rounded bg-slate-200"></div>
+          <div class="space-y-2">
+            <div class="h-4 rounded bg-slate-200"></div>
+            <div class="h-4 w-5/6 rounded bg-slate-200"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="mx-auto max-w-lg rounded-2xl border border-red-100 bg-red-50 p-8 text-center">
+      <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+        <lucide-icon [name]="alertIcon" class="h-6 w-6 text-red-600"></lucide-icon>
+      </div>
+      <h3 class="mb-2 text-lg font-semibold text-red-900">Oops, something went wrong</h3>
+      <p class="mb-6 text-sm text-red-600">{{ errorMessage }}</p>
+      <button 
+        (click)="loadIdeas()" 
+        class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+        <lucide-icon [name]="refreshIcon" class="h-4 w-4"></lucide-icon>
+        Try Again
+      </button>
+    </div>
+
+    <div *ngIf="!loading && !errorMessage">
+      
+      <div *ngIf="ideas.length > 0">
+        <div class="mb-6 flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+            <lucide-icon [name]="trendingUpIcon" class="h-5 w-5"></lucide-icon>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900">Trending Concepts</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-3 pb-10">
+          <ng-container *ngFor="let idea of filteredIdeas.slice(0, 3); let i = index">
+            <div class="group relative flex flex-col justify-between rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10">
+              
+              <div class="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-sm"
+                   [ngClass]="{
+                     'bg-amber-50 border-amber-200 text-amber-700': i === 0,
+                     'bg-slate-50 border-slate-200 text-slate-700': i === 1,
+                     'bg-orange-50 border-orange-200 text-orange-700': i === 2
+                   }">
+                <lucide-icon [name]="lightbulbIcon" class="h-3 w-3"></lucide-icon>
+                <span>#{{ i + 1 }} Top Pick</span>
+              </div>
+
+              <div>
+                <div class="mb-3 mt-2 flex items-center justify-between text-xs text-slate-400">
+                  <span>{{ idea.created_at | date:'MMM d, y' }}</span>
+                </div>
+                
+                <h3 class="mb-3 text-lg font-bold leading-tight text-slate-900 line-clamp-2">
+                  {{ idea.title }}
+                </h3>
+                <p class="mb-6 text-sm leading-relaxed text-slate-600 line-clamp-3">
+                  {{ idea.description }}
+                </p>
+              </div>
+              
+              <div class="relative mt-auto border-t border-slate-100 pt-4">
+                 <div *ngIf="getVotingError(idea.id)" class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-red-500 px-2 py-1 text-[10px] font-medium text-white shadow-lg animate-in fade-in slide-in-from-bottom-2">
+                    {{ getVotingError(idea.id) }}
+                    <div class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-red-500"></div>
+                 </div>
+
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1 rounded-lg bg-slate-50 p-1 ring-1 ring-slate-900/5">
+                    <button (click)="upvote(idea.id)" [disabled]="isVoting(idea.id)"
+                      class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition-colors hover:bg-white hover:text-indigo-600 hover:shadow-sm disabled:opacity-50">
+                      <lucide-icon *ngIf="!isVoting(idea.id)" [name]="thumbsUpIcon" class="h-4 w-4"></lucide-icon>
+                      <lucide-icon *ngIf="isVoting(idea.id)" [name]="loaderIcon" class="h-4 w-4 animate-spin"></lucide-icon>
+                    </button>
+                    
+                    <div class="min-w-[2rem] text-center text-sm font-bold" [ngClass]="getVoteColor(idea.vote_count)">
+                      {{ idea.vote_count }}
+                    </div>
+
+                    <button (click)="downvote(idea.id)" [disabled]="isVoting(idea.id)"
+                      class="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition-colors hover:bg-white hover:text-rose-600 hover:shadow-sm disabled:opacity-50">
+                      <lucide-icon *ngIf="!isVoting(idea.id)" [name]="thumbsDownIcon" class="h-4 w-4"></lucide-icon>
+                      <lucide-icon *ngIf="isVoting(idea.id)" [name]="loaderIcon" class="h-4 w-4 animate-spin"></lucide-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div *ngIf="filteredIdeas.length > 3">
+        <div class="mb-6 flex items-center gap-2 border-t border-slate-200 pt-10">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+            <lucide-icon [name]="clockIcon" class="h-5 w-5"></lucide-icon>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900">Recent Contributions</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ng-container *ngFor="let idea of filteredIdeas.slice(3)">
+            <div class="group relative flex flex-col justify-between rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/5 transition-all hover:shadow-md hover:ring-indigo-500/20">
+              <div>
+                <div class="mb-2 flex items-center justify-between">
+                  <span class="text-xs font-medium text-slate-400">{{ idea.created_at | date:'MMM d, y' }}</span>
+                </div>
+                
+                <h3 class="mb-2 font-semibold text-slate-900 line-clamp-2">{{ idea.title }}</h3>
+                <p class="mb-4 text-sm text-slate-600 line-clamp-3">{{ idea.description }}</p>
+              </div>
+              
+              <div class="mt-auto flex items-center justify-between border-t border-slate-50 pt-3">
+                <div class="flex items-center gap-2">
+                   <button (click)="upvote(idea.id)" [disabled]="isVoting(idea.id)" 
+                      class="group/btn flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 transition-colors hover:bg-indigo-50 hover:text-indigo-700">
+                      <lucide-icon *ngIf="!isVoting(idea.id)" [name]="thumbsUpIcon" class="h-3 w-3"></lucide-icon>
+                      <lucide-icon *ngIf="isVoting(idea.id)" [name]="loaderIcon" class="h-3 w-3 animate-spin"></lucide-icon>
+                      <span>Up</span>
+                   </button>
+                   <button (click)="downvote(idea.id)" [disabled]="isVoting(idea.id)"
+                      class="group/btn flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 transition-colors hover:bg-rose-50 hover:text-rose-700">
+                      <lucide-icon [name]="thumbsDownIcon" class="h-3 w-3"></lucide-icon>
+                   </button>
+                </div>
+                <span class="text-sm font-bold text-slate-700">{{ idea.vote_count }}</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div *ngIf="!loading && filteredIdeas.length === 0" class="flex flex-col items-center justify-center text-center">
+        <div class="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-slate-50 ring-1 ring-slate-100">
+          <lucide-icon [name]="lightbulbIcon" class="h-10 w-10 text-slate-300"></lucide-icon>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-900">No ideas found</h3>
+        <p class="mt-2 max-w-sm text-slate-500">
+          {{ searchTerm ? 'We couldn\'t find any ideas matching your search.' : 'The garden is empty. Be the first to plant a seed!' }}
+        </p>
+        <button (click)="openModal()" class="mt-8 inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <lucide-icon [name]="plusIcon" class="h-4 w-4"></lucide-icon>
+          {{ searchTerm ? 'Clear Search & Add Idea' : 'Share First Idea' }}
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <div *ngIf="isModalOpen" 
+       class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-slate-900/20 transition-opacity">
+    <div class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-2xl ring-1 ring-slate-900/5 transition-all">
+      
+      <div class="mb-5 flex items-center justify-between">
+        <h2 class="text-xl font-bold text-slate-900">New Idea</h2>
+        <button (click)="closeModal()" class="rounded-full p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-500">
+          <lucide-icon [name]="xIcon" class="h-5 w-5"></lucide-icon>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="ideaForm" (ngSubmit)="submitIdea()" class="space-y-5">
+        <div>
+          <label class="mb-1.5 block text-sm font-semibold text-slate-700">Title</label>
+          <input
+            type="text"
+            formControlName="title"
+            maxlength="100"
+            placeholder="e.g., Dark Mode for Dashboard"
+            class="block w-full rounded-lg border-slate-300 bg-slate-50 px-3 py-2.5 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          />
+          <div class="mt-1 flex justify-between px-1">
+             <span class="text-xs text-red-500" *ngIf="title?.touched && title?.invalid">Required</span>
+             <span class="ml-auto text-xs text-slate-400">{{ title?.value?.length || 0 }}/100</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="mb-1.5 block text-sm font-semibold text-slate-700">Description</label>
+          <textarea
+            rows="4"
+            formControlName="description"
+            maxlength="500"
+            placeholder="Describe the impact of this idea..."
+            class="block w-full resize-none rounded-lg border-slate-300 bg-slate-50 px-3 py-2.5 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          ></textarea>
+           <div class="mt-1 flex justify-between px-1">
+             <span class="text-xs text-red-500" *ngIf="description?.touched && description?.invalid">Required</span>
+             <span class="ml-auto text-xs text-slate-400">{{ description?.value?.length || 0 }}/500</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button
+            type="button"
+            (click)="closeModal()"
+            class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            [disabled]="ideaForm.invalid || submitting"
+            class="flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <lucide-angular
+              *ngIf="submitting"
+              [img]="loaderIcon"
+              class="h-4 w-4 animate-spin"
+            ></lucide-angular>
+            <span>{{ submitting ? 'Planting...' : 'Plant Idea' }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
