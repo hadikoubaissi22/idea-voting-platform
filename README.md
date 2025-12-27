@@ -118,29 +118,29 @@ idea-voting-platform/
     cd idea-voting-platform
 
 ### 2️⃣ Install Dependencies
-        Backend
-            cd backend
-            npm install
-        Fronted
-            cd frontend
-            npm install
+    Backend
+        cd backend
+        npm install
+    Fronted
+        cd frontend
+        npm install
 
 ### 3️⃣ Database Setup
-        PostgreSQL runs automatically via Docker Compose
-        Database tables are initialized by the backend on startup
-        No manual SQL setup is required
+    PostgreSQL runs automatically via Docker Compose
+    Database tables are initialized by the backend on startup
+    No manual SQL setup is required
 
 ### 4️⃣ Run the Application
-        docker compose up --build
+    docker compose up --build
 
 ### 5️⃣ Run Without Docker
-        Backend
-            cd backend
-            npm run dev
-        Frontend
-            cd frontend
-            ng serve
-
+    Backend
+        cd backend
+        npm run dev
+    Frontend
+        cd frontend
+        ng serve
+---
 ## 🌐 Application Ports
     Service	        URL
 
@@ -151,7 +151,7 @@ idea-voting-platform/
     Swagger Docs    http://localhost:3000/api/docs
 
     PostgreSQL	    localhost:5432
-
+---
 ## 🧠 Design Decisions & Trade-offs
 
     Angular Standalone Components were used to reduce boilerplate and improve maintainability.
@@ -163,7 +163,7 @@ idea-voting-platform/
     Docker Compose simplifies setup and guarantees consistent environments across machines.
 
     Authentication was kept minimal to focus on the core assignment requirements.
-
+---
 ## ⭐ Bonus Features Implemented
 
     ✅ Real-time updates using WebSockets
