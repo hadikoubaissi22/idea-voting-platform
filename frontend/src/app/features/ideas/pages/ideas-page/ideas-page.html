@@ -177,7 +177,7 @@
                       <lucide-icon [name]="thumbsDownIcon" class="h-3 w-3"></lucide-icon>
                    </button>
                 </div>
-                <span class="text-sm font-bold text-slate-700">{{ idea.vote_count }}</span>
+                <span class="text-sm font-bold" [ngClass]="getVoteColor(idea.vote_count)">{{ idea.vote_count }}</span>
               </div>
             </div>
           </ng-container>
