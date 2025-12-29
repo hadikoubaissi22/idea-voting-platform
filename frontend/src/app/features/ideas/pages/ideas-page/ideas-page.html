@@ -165,7 +165,12 @@
               </div>
               
               <div class="mt-auto flex items-center justify-between border-t border-slate-50 pt-3">
+
                 <div class="flex items-center gap-2">
+                  <div *ngIf="getVotingError(idea.id)" class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-red-500 px-2 py-1 text-[10px] font-medium text-white shadow-lg animate-in fade-in slide-in-from-bottom-2">
+                      {{ getVotingError(idea.id) }}
+                      <div class="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-red-500"></div>
+                  </div>
                    <button (click)="upvote(idea.id)" [disabled]="isVoting(idea.id)" 
                       class="group/btn flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 transition-colors hover:bg-indigo-50 hover:text-indigo-700">
                       <lucide-icon *ngIf="!isVoting(idea.id)" [name]="thumbsUpIcon" class="h-3 w-3"></lucide-icon>
@@ -175,6 +180,7 @@
                    <button (click)="downvote(idea.id)" [disabled]="isVoting(idea.id)"
                       class="group/btn flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 transition-colors hover:bg-rose-50 hover:text-rose-700">
                       <lucide-icon [name]="thumbsDownIcon" class="h-3 w-3"></lucide-icon>
+                      <lucide-icon *ngIf="isVoting(idea.id)" [name]="loaderIcon" class="h-3 w-3 animate-spin"></lucide-icon>
                    </button>
                 </div>
                 <span class="text-sm font-bold" [ngClass]="getVoteColor(idea.vote_count)">{{ idea.vote_count }}</span>
@@ -213,6 +219,11 @@
       </div>
 
       <form [formGroup]="ideaForm" (ngSubmit)="submitIdea()" class="space-y-5">
+        <div *ngIf="errorMessage" class="rounded-lg bg-red-50 border border-red-200 px-4 py-3">
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-red-600 font-medium">{{ errorMessage }}</span>
+          </div>
+        </div>
         <div>
           <label class="mb-1.5 block text-sm font-semibold text-slate-700">Title</label>
           <input

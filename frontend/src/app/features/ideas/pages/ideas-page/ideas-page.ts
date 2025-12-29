@@ -40,6 +40,7 @@ export class IdeasPage implements OnInit, OnDestroy {
   ideaForm!: FormGroup;
   errorMessage: string | null = null;
   submitting = false;
+  errorMessage_submit: string | null = null;
   votingErrors = new Map<string, string>();
   getVotingError(id: string): string | undefined {
     return this.votingErrors.get(id);
@@ -259,34 +260,6 @@ export class IdeasPage implements OnInit, OnDestroy {
     return 'text-gray-500';
   }
 
-  getTrendingColor(index: number): string {
-    if (index === 0) return 'from-amber-500 to-orange-500 shadow-lg shadow-amber-500/20';
-    if (index === 1) return 'from-blue-500 to-indigo-500 shadow-lg shadow-blue-500/20';
-    if (index === 2) return 'from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/20';
-    return 'from-gray-100 to-gray-200';
-  }
-
-  getCardBorderColor(votes: number): string {
-    if (votes > 20) return 'border-emerald-200';
-    if (votes > 10) return 'border-blue-200';
-    if (votes > 0) return 'border-gray-200';
-    if (votes < 0) return 'border-rose-200';
-    return 'border-gray-200';
-  }
-
-  getVoteButtonColor(votes: number, type: 'up' | 'down'): string {
-    const base = 'transition-all duration-300 hover:scale-105 active:scale-95 ';
-    
-    if (type === 'up') {
-      if (votes > 20) return base + 'bg-gradient-to-r from-emerald-500 to-green-500 hover:shadow-lg hover:shadow-emerald-500/30';
-      if (votes > 10) return base + 'bg-gradient-to-r from-blue-500 to-cyan-500 hover:shadow-lg hover:shadow-blue-500/30';
-      return base + 'bg-gradient-to-r from-gray-600 to-gray-700 hover:shadow-lg hover:shadow-gray-500/30';
-    } else {
-      if (votes < 0) return base + 'bg-gradient-to-r from-rose-500 to-pink-500 hover:shadow-lg hover:shadow-rose-500/30';
-      return base + 'bg-gradient-to-r from-gray-600 to-gray-700 hover:shadow-lg hover:shadow-gray-500/30';
-    }
-  }
-
   openModal() {
     this.isModalOpen = true;
   }
@@ -299,14 +272,14 @@ export class IdeasPage implements OnInit, OnDestroy {
   submitIdea() {
     if (this.ideaForm.invalid || this.submitting) return;
 
-    this.submitting = true; 
-
+    this.submitting = true;
+    this.errorMessage = null; 
     const { title, description } = this.ideaForm.value;
 
     this.ideasService.addIdea({ title: title!, description: description! })
       .pipe(
         finalize(() => {
-          this.submitting = false; 
+          this.submitting = false;
           this.cdr.detectChanges();
         })
       )
@@ -314,7 +287,11 @@ export class IdeasPage implements OnInit, OnDestroy {
         next: () => {
           this.closeModal();
         },
-        error: (err) => console.error('Error adding idea:', err)
+        error: (err) => {
+          console.error('Error adding idea:', err);
+          this.errorMessage = err.error?.message || 'Failed to plant idea. Please try again.';
+          this.cdr.detectChanges();
+        }
       });
   }
 
