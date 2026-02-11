@@ -79,8 +79,6 @@ idea-voting-platform/
 │   │       │   ├── services/
 │   │       │   │   ├── ideas.service.ts
 │   │       │   │   └── socket.service.ts
-│   │       │   ├── interceptors/
-│   │       │   │   └── auth.interceptor.ts
 │   │       │   └── models/
 │   │       │       └── idea.model.ts
 │   │       ├── features/
